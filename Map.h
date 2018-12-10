@@ -4,15 +4,21 @@
 template<class TKey, class TValue> class Map {
 private:	
 	struct node {
-		node* next;
+		node *next;
 		TKey key;
-		TValue* value;
+		TValue *value;
 	};
 	node* head;
 	node* current;
+	void swap(Map& m) {
+		node *t = head;
+		head = m.head;
+		head = t;
+	}
+
 public:
 	Map() {
-		head = NULL;	
+		head = NULL;
 		current = NULL;
 	}
 
@@ -43,12 +49,16 @@ public:
 	}
 	
 	void add(TKey k, TValue v) {
-		node *t = new node;
-		t->next = head;
-		head = t;
-		head->key = k;
-		head->value = &v;
-		current = head;
+		if(!(find(k))) {
+			node *t = new node;
+			t->next = head;
+			head = t;
+			head->key = k;
+			head->value = &v;
+			current = head;
+		} else {
+			std::cout << "Entry with a key \" " << k << " \" already exists.\n";
+		}
 	}
 
 	TValue* find(TKey k) {
@@ -61,6 +71,15 @@ public:
 			current = current->next;
 		}
 		current = head;
+		return NULL;
+	}
+
+	Map& operator=(const Map& m) {
+		if(&m == this)
+			return *this;
+		Map t(m);
+		swap(t);
+		return *this;
 	}
 
 	friend std::ostream& operator<< (std::ostream& out, Map& m) {

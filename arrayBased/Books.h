@@ -7,9 +7,11 @@ public:
 	string category;
 	unsigned int nOfPages;
 	bool inLib;
-	
+
+	BookDetails() { };
+
 	BookDetails(string a, string c, unsigned int n, bool in = true)
-		:author(a), category(c), nOfPages(n), inLib(in) { }
+		:author(a), category(c), nOfPages(n), inLib(in) { };
 
 	void lend() {
 		 if(inLib) {
